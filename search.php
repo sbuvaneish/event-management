@@ -13,7 +13,43 @@ require 'database.php';
 $message = "";
 
 
+function getRegisteredEvents() {
+
+	global $conn;
+
+	$query = "SELECT event_id FROM registrations WHERE user_id = :user_id";
+	$records = $conn->prepare($query);
+	$records->bindParam(':user_id', $_SESSION['user_id']);
+	$records->execute();
+	$results = $records->fetchAll(PDO::FETCH_ASSOC);
+	$processed_results = [];
+
+	foreach($results as $result) {
+		array_push($processed_results, $result['event_id']);
+	}
+
+	return $processed_results;
+
+}
+
+
+function validateRecord($record) {
+
+	global $registered_events;
+
+	$now = new DateTime();
+	$time = $now->format('Y-m-d H:i:s');
+
+
+
+	return ((($time <= $record['deadline']) AND !in_array($record['event_id'], $registered_events) AND ($record['count'] < $record['capacity'])) ? 1 : 0);
+
+} 
+
+
 if(isset($_POST['submit'])) {
+
+	$registered_events = getRegisteredEvents();
 
 	$query = "SELECT events.id as event_id, user_id, events.name as event_name, users.name as user_name, email, count, capacity, date, deadline FROM events JOIN users ON events.user_id = users.id WHERE (events.name LIKE CONCAT('%', :search_query, '%') OR users.name LIKE CONCAT('%', :search_query, '%'))";
 
@@ -106,40 +142,59 @@ if(isset($_POST['submit'])) {
 <?php if(isset($_POST['submit'])) { ?>
 
 	<div style="color:green">
-			Total Results: <?=count($results)?><br>
+			Total Results: <?if(isset($_POST['registered'])) {echo count($registered_events);} else {echo count($results);} ?><br>
 	</div>
 
 
 	<?php foreach($results as $record) { ?>
 
+
+		<?php if(!isset($_POST['registered']) or in_array($record['event_id'], $registered_events)) { ?>
+
+
 		<center>
 			
 			<div class="col-md-3 col-sm-6">
 		        <div class="product-grid" style="background-color:gray">
+
+
+		        	
 		            
-		            <div class="product-content">
-		                Event: <?=$record['event_name']?><br>
-		                Organizer: <?=$record['user_name']?><br>
-		                Organizer Email: <?=$record['email']?><br>
-		                Event datetime: <?=$record['date']?><br>
-		                Registration Deadline: <?=$record['deadline']?><br>
+			            <div class="product-content">
+			                Event: <?=$record['event_name']?><br>
+			                Organizer: <?=$record['user_name']?><br>
+			                Organizer Email: <?=$record['email']?><br>
+			                Event datetime: <?=$record['date']?><br>
+			                Deadline: <?=$record['deadline']?><br>
 
-		                <?php if($record['user_id'] === $_SESSION['user_id']) { ?>
-		                	<a href="edit.php?event_id=<?=$record['event_id']?>" target="_blank" class="list-group-item list-group-item-action active" style="background-color:orange">Edit</a>
-		                	<a href="delete.php?event_id=<?=$record['event_id']?>" target="_blank" class="list-group-item list-group-item-action active" style="background-color:green">Delete</a>
-		                	
-		                <?php } else { ?> 
-		                	<a href="edit.php?event_id=<?=$record['event_id']?>&view_only" target="_blank" class="list-group-item list-group-item-action active" style="background-color:orange">View</a>
-		            	<?php } ?>
-		                <br>
+			                <?php if($record['user_id'] === $_SESSION['user_id']) { ?>
+			                	<a href="edit.php?event_id=<?=$record['event_id']?>" target="_blank" class="list-group-item list-group-item-action active" style="background-color:orange">Edit</a>
+			                	<a href="delete.php?event_id=<?=$record['event_id']?>" target="_blank" class="list-group-item list-group-item-action active" style="background-color:green">Delete</a>
 
-		            </div>
+			                <?php } else { ?> 
+			                	<a href="edit.php?event_id=<?=$record['event_id']?>&view_only" target="_blank" class="list-group-item list-group-item-action active" style="background-color:orange">View</a>
+			            	<?php } ?>
+
+
+			            	<?php if(validateRecord($record) === 1) { ?>
+		                	<a href="event_registration.php?event_id=<?=$record['event_id']?>" target="_blank" class="list-group-item list-group-item-action active" style="background-color:red">Register for event</a>
+		                	<?php } ?>
+
+
+			                <br>
+
+			            </div>
+
+
 		            <br>
 		        </div>
 		        <br>
 		    </div>	
 
 		</center>
+
+
+		<?php } ?>
 		
 
 	<?php } ?>
