@@ -6,6 +6,8 @@ if(isset($_SESSION['user_id'])) {
 	header("Location: /main.php");
 }
 
+unset($_SESSION['event_id']);
+
 require 'database.php';
 
 if(isset($_POST['submit'])) {

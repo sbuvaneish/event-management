@@ -1,5 +1,8 @@
-
 <?php
+
+session_start();
+unset($_SESSION['event_id']);
+
 
 require 'database.php';
 

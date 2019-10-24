@@ -6,6 +6,8 @@ if(!isset($_SESSION['user_id'])) {
 	header("Location: /login.php");
 }
 
+unset($_SESSION['event_id']);
+
 ?>
 
 <div align="center" class="container">
