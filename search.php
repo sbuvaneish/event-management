@@ -126,6 +126,7 @@ if(isset($_POST['submit'])) {
 
 		                <?php if($record['user_id'] === $_SESSION['user_id']) { ?>
 		                	<a href="edit.php?event_id=<?=$record['event_id']?>" target="_blank" class="list-group-item list-group-item-action active" style="background-color:orange">Edit</a>
+		                	<a href="delete.php?event_id=<?=$record['event_id']?>" target="_blank" class="list-group-item list-group-item-action active" style="background-color:green">Delete</a>
 		                	
 		                <?php } else { ?> 
 		                	<a href="edit.php?event_id=<?=$record['event_id']?>&view_only" target="_blank" class="list-group-item list-group-item-action active" style="background-color:orange">View</a>
