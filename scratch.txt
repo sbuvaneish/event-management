@@ -1,11 +1,17 @@
 create table users(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50), email VARCHAR(50) NOT NULL UNIQUE, password VARCHAR(255) NOT NULL, phone VARCHAR(15), street_address VARCHAR(100), city VARCHAR(50), state VARCHAR(50), zip VARCHAR(10), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
-create table events(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50), description VARCHAR(500), user_id INT NOT NULL, street_address VARCHAR(100), city VARCHAR(50), state VARCHAR(50), zip VARCHAR(10), count INT DEFAULT 0, capacity INT NOT NULL, date DATETIME NOT NULL, deadline DATETIME NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
-
-alter table events add foreign key (user_id) references users(id);
-
-SELECT events.id as event_id, user_id, events.name as event_name, users.name as user_name, email, count, capacity, date, deadline FROM events JOIN users ON events.user_id = users.id WHERE events.name LIKE CONCAT('%', :search_query, '%') OR users.name LIKE CONCAT('%', :search_query, '%')
+create table events(id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50), description VARCHAR(500), user_id INT NOT NULL, street_address VARCHAR(100), city VARCHAR(50), state VARCHAR(50), zip VARCHAR(10), count INT DEFAULT 0, capacity INT NOT NULL, date DATETIME NOT NULL, deadline DATETIME NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE);
 
 create table registrations(user_id INT NOT NULL, event_id INT NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE, FOREIGN KEY(event_id) REFERENCES events(id) ON DELETE CASCADE, PRIMARY KEY(user_id, event_id));
 
 create table friends(user_1 INT NOT NULL, user_2 INT NOT NULL, PRIMARY KEY(user_1, user_2), FOREIGN KEY(user_1) REFERENCES users(id) ON DELETE CASCADE, FOREIGN KEY(user_2) REFERENCES users(id) ON DELETE CASCADE);
+
+
+
+
+
+
+
+SELECT events.id as event_id, user_id, events.name as event_name, users.name as user_name, email, count, capacity, date, deadline FROM events JOIN users ON events.user_id = users.id WHERE events.name LIKE CONCAT('%', :search_query, '%') OR users.name LIKE CONCAT('%', :search_query, '%')
+
+mysql://b607abb5e11746:fe67bffa@us-cdbr-iron-east-05.cleardb.net/heroku_02f84be589b00af?reconnect=true
