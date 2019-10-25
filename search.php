@@ -168,7 +168,7 @@ if(isset($_POST['submit'])) {
 		<center>
 			
 			<div class="col-md-3 col-sm-6">
-		        <div class="product-grid" style="background-color:gray">
+		        <div class="product-grid" style="background-color:lightgrey">
 
 
 		        	
@@ -185,13 +185,15 @@ if(isset($_POST['submit'])) {
 			                	<a href="delete.php?event_id=<?=$record['event_id']?>" target="_blank" class="list-group-item list-group-item-action active" style="background-color:green">Delete</a>
 
 			                <?php } else { ?> 
-			                	<a href="edit.php?event_id=<?=$record['event_id']?>&view_only" target="_blank" class="list-group-item list-group-item-action active" style="background-color:orange">View</a>
+			                	<a href="edit.php?event_id=<?=$record['event_id']?>&creator_id=<?=$record['user_id']?>" target="_blank" class="list-group-item list-group-item-action active" style="background-color:orange">View</a>
 			            	<?php } ?>
 
 
 			            	<?php if(validateRecord($record) === 1) { ?>
 		                	<a href="event_registration.php?event_id=<?=$record['event_id']?>" target="_blank" class="list-group-item list-group-item-action active" style="background-color:red">Register for event</a>
 		                	<?php } ?>
+
+		                	<a href="viewFriends.php?event_id=<?=$record['event_id']?>" target="_blank" class="list-group-item list-group-item-action active" style="background-color:blue">View attending friends</a>
 
 
 			                <br>

@@ -294,7 +294,7 @@ if(isset($_POST['submit'])) {
 	    <div class="control-group">
 	      <!-- Button -->
 	      <div class="controls">
-	        <button class="btn btn-success" name="submit" <?php if(isset($_GET['view_only'])) {echo "disabled";} ?>>Update</button>
+	        <button class="btn btn-success" name="submit" <?php if(isset($_GET['creator_id']) AND ($_GET['creator_id'] != $_SESSION['user_id'])) {echo "disabled";} ?>>Update</button>
 	      </div>
 	    </div>
 	    

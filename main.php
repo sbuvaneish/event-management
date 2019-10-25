@@ -22,5 +22,6 @@ unset($_SESSION['event_id']);
 <div class="list-group">
   <a href="edit.php" class="list-group-item list-group-item-action">Create a new event</a><br>
   <a href="search.php" class="list-group-item list-group-item-action">Search for events</a><br>
+  <a href="friends.php" class="list-group-item list-group-item-action">Make friends!</a><br>
   <a href="index.php" class="list-group-item list-group-item-action">Logout</a><br>
 </div>
