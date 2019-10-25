@@ -141,9 +141,22 @@ if(isset($_POST['submit'])) {
 
 <?php if(isset($_POST['submit'])) { ?>
 
+
 	<div style="color:green">
-			Total Results: <?if(isset($_POST['registered'])) {echo count($registered_events);} else {echo count($results);} ?><br>
+
+		<?php
+			$count = 0;
+			foreach($results as $record) {
+				if(!isset($_POST['registered']) or in_array($record['event_id'], $registered_events)) {
+					$count++;
+				} 
+			}
+		?>
+
+		Total Results: <?=$count?><br>
 	</div>
+
+
 
 
 	<?php foreach($results as $record) { ?>
