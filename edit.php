@@ -187,12 +187,12 @@ if(isset($_POST['submit'])) {
 
 	    		 if($message === "Successfully created new event") {
 	    		 	echo "<br>" . "Redirecting...";
-					echo "<script>setTimeout(\"location.href = 'http://event-management-608.herokuapp.com/main.php';\",1500);</script>";
+					echo "<script>setTimeout(\"location.href = 'https://event-management-608.herokuapp.com/main.php';\",1500);</script>";
 	    		 }
 	    		 else if($message === "Successfully updated your event") {
 	    		 	unset($_SESSION['event_id']);
 	    		 	echo "<br>" . "Redirecting...";
-					echo "<script>setTimeout(\"location.href = 'http://event-management-608.herokuapp.com/main.php';\",1500);</script>";
+					echo "<script>setTimeout(\"location.href = 'https://event-management-608.herokuapp.com/main.php';\",1500);</script>";
 	    		 }
 
 	    		 ?>
