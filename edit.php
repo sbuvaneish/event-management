@@ -255,7 +255,7 @@ if(isset($_POST['submit'])) {
 	      <!-- E-mail -->
 	      <label class="control-label" for="count">Count</label>
 	      <div class="controls">
-	        <input type="text" id="count" name="count" placeholder="" class="input-xlarge" value="<?= $record['count'] ?>" disabled>
+	        <input readonly type="text" id="count" name="count" placeholder="" class="input-xlarge" value="<?= getFieldValue('count', $record) ?>">
 	      </div>
 	    </div>
 
